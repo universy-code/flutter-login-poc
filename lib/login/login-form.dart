@@ -32,19 +32,25 @@ class LoginFormState extends State<LoginForm> {
           child: Column(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 12.0),
-                  child: Text(
-                    'Iniciar sesión',
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black54,fontSize: 25),
-                  )),
+                  padding: EdgeInsets.only(top: 19.0),
+                  child:
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                    Text(
+                      'Iniciar sesión',
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black54,fontSize: 25),
+                    )
+                  ],)
+                  ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.0),
                 child: TextFormField(
                   controller: _userController,
-                  decoration: InputDecoration(labelText: 'Ingresá tu usuario'),
+                  decoration: InputDecoration(labelText: 'Ingresá tu mail'),
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'El usuario es requerido.';
