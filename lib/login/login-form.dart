@@ -33,24 +33,25 @@ class LoginFormState extends State<LoginForm> {
             children: <Widget>[
               Padding(
                   padding: EdgeInsets.only(top: 19.0),
-                  child:
-                  Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                    Text(
-                      'Iniciar sesión',
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black54,fontSize: 25),
-                    )
-                  ],)
-                  ),
+                      Text(
+                        'Iniciar sesión',
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                            fontSize: 25),
+                      )
+                    ],
+                  )),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.0),
                 child: TextFormField(
                   controller: _userController,
-                  decoration: InputDecoration(labelText: 'Ingresá tu mail'),
+                  decoration: InputDecoration(labelText: 'Ingresa tu mail'),
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'El usuario es requerido.';
@@ -63,7 +64,8 @@ class LoginFormState extends State<LoginForm> {
                 child: TextFormField(
                   controller: _passwordController,
                   obscureText: true,
-                  decoration: InputDecoration(labelText: 'Ingresá tu contraseña'),
+                  decoration:
+                      InputDecoration(labelText: 'Ingresa tu contraseña'),
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'La contraseña es requerida.';
@@ -72,9 +74,10 @@ class LoginFormState extends State<LoginForm> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 18.0),
                   child: ButtonTheme(
                       minWidth: 150.0,
+                      height: 43,
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(250)),
@@ -82,36 +85,44 @@ class LoginFormState extends State<LoginForm> {
                           // Validate will return true if the form is valid, or false if
                           // the form is invalid.
                           if (_formKey.currentState.validate()) {
-
                             // If the form is valid, we want to show a Snackbar
-                            Scaffold.of(context).showSnackBar(
-                                SnackBar(content: Text('Verificando información.'+_passwordController.text)));
-                            var response = sendUser(_userController.text, _passwordController.text);
-                            response.then((token)=> Scaffold.of(context).showSnackBar(
-                                SnackBar(content: Text('Token:'+token.token))));
-
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                                content: Text('Verificando información.' +
+                                    _passwordController.text)));
+                            var response = sendUser(
+                                _userController.text, _passwordController.text);
+                            response.then((token) => Scaffold.of(context)
+                                .showSnackBar(SnackBar(
+                                    content: Text('Token:' + token.token))));
                           }
                         },
-                        child: Text('Ingresar'),
-                        color: Colors.amber,
-                      )))
+                        child: Text(
+                          'Ingresar',
+                          style: TextStyle(
+                              color: Colors.white,
+                              letterSpacing: 1.6,
+                              fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                        ),
+                        color: Color(0xFF8e6bb5),
+                      ))),
             ],
           ),
         ));
   }
-
-
 }
 
 Future<Token> sendUser(String user, String password) async {
-  String url = "https://2hebr2v925.execute-api.sa-east-1.amazonaws.com/qa/universy/logon";
-  Map<String,String> bodyMap = {"mail": user, "password": password};
+  String url =
+      "https://2hebr2v925.execute-api.sa-east-1.amazonaws.com/qa/universy/logon";
+  Map<String, String> bodyMap = {"mail": user, "password": password};
   var body = json.encode(bodyMap);
-  var headers = {'x-api-key': 'XsWv3DIvGb4ZI86LpxFID4J7ZAyPp8BI7s5fXU0e', 'Content-type': 'application/json'};
+  var headers = {
+    'x-api-key': 'XsWv3DIvGb4ZI86LpxFID4J7ZAyPp8BI7s5fXU0e',
+    'Content-type': 'application/json'
+  };
 
-  final response = await http.post(url,
-      headers: headers,
-      body: body);
+  final response = await http.post(url, headers: headers, body: body);
 
   if (response.statusCode == 200) {
     return Token.fromJson(json.decode(response.body));
@@ -121,19 +132,13 @@ Future<Token> sendUser(String user, String password) async {
   }
 }
 
-
 class Token {
   final String username;
   final String token;
 
   Token({this.username, this.token});
 
-  factory Token.fromJson(Map<String, dynamic> json){
-    return Token(
-        username: json['username'],
-        token: json['token']
-    );
+  factory Token.fromJson(Map<String, dynamic> json) {
+    return Token(username: json['username'], token: json['token']);
   }
 }
-
-
